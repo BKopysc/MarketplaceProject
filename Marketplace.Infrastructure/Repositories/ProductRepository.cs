@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.Infrastructure.Repositories
 {
-    class ProductRepository : IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private AppDbContext _appDbContext;
 

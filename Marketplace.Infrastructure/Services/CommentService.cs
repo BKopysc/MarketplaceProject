@@ -57,6 +57,7 @@ namespace Marketplace.Infrastructure.Services
                 AuthorName = comment.AuthorName,
                 CreatedDate = comment.CreatedDate,
                 Text = comment.Text,
+                OfferId = comment.OfferId,
             };
 
             var z = await _commentRepository.AddSync(of);

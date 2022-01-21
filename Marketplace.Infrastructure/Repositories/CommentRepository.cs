@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.Infrastructure.Repositories
 {
-    class CommentRepository : ICommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private AppDbContext _appDbContext;
 
@@ -82,6 +82,7 @@ namespace Marketplace.Infrastructure.Repositories
                 z.AuthorName = c.AuthorName;
                 z.CreatedDate = c.CreatedDate;
                 z.Text = c.Text;
+
 
                 _appDbContext.SaveChanges();
 

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace Marketplace.WebAPI.Controllers
 {
     [Route("[Controller]")]
-    public class OfferController : Controller
+    public class OffersController : Controller
     {
         private readonly IOfferService _offerService;
         
-        public OfferController(IOfferService offerService)
+        public OffersController(IOfferService offerService)
         {
             _offerService = offerService;
         }

@@ -36,10 +36,10 @@ namespace Marketplace.WebAPI
             services.AddScoped<IOfferService, OfferService>();
 
             services.AddScoped<ICommentRepository, CommentRepository>();
-            services.AddScoped<IOfferService, OfferService>();
+            services.AddScoped<ICommentService, CommentService>();
 
-            services.AddScoped<IOfferRepository, OfferRepository>();
-            services.AddScoped<IOfferService, OfferService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
 
 
             services.AddDbContext<AppDbContext>(
