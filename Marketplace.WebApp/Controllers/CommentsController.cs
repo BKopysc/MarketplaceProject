@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebApp.Controllers
 {
-    public class OffersController : Controller
+    public class CommentsController : Controller
     {
         public IConfiguration Configuration;
 
-        public OffersController(IConfiguration configuration)
+        public CommentsController(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -38,29 +38,29 @@ namespace Marketplace.WebApp.Controllers
             //string _restpath = "http://localhost:5000/skijumper";
 
             string _restpath = GetHostUrl().Content + CN();
-            List<OfferVM> offersList = new List<OfferVM>();
+            List<CommentVM> commentsList = new List<CommentVM>();
 
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(_restpath))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    offersList = JsonConvert.DeserializeObject<List<OfferVM>>(apiResponse);
+                    commentsList = JsonConvert.DeserializeObject<List<CommentVM>>(apiResponse);
                 }
             }
-            return View(offersList);
+            return View(commentsList);
         }
         public async Task<IActionResult> Edit(int id)
         {
             string _restpath = GetHostUrl().Content + CN();
-            OfferVM s = new OfferVM();
+            CommentVM s = new CommentVM();
 
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    s = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
+                    s = JsonConvert.DeserializeObject<CommentVM>(apiResponse);
                 }
             }
             return View(s);
@@ -68,11 +68,11 @@ namespace Marketplace.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(OfferVM s, int id) //strongly type view
+        public async Task<IActionResult> Edit(CommentVM s, int id) //strongly type view
         {
             string _restpath = GetHostUrl().Content + CN();
 
-            OfferVM ofResult = new OfferVM();
+            CommentVM ofResult = new CommentVM();
 
             try
             {
@@ -84,7 +84,7 @@ namespace Marketplace.WebApp.Controllers
                     using (var response = await httpClient.PutAsync($"{_restpath}/{id}", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync(); //mozna zwrocic caly obiekt ktory zostal zedytowany
-                        ofResult = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
+                        ofResult = JsonConvert.DeserializeObject<CommentVM>(apiResponse);
                     }
                 }
             }
@@ -98,25 +98,25 @@ namespace Marketplace.WebApp.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             string _restpath = GetHostUrl().Content + CN();
-            OfferVM of = new OfferVM();
+            CommentVM of = new CommentVM();
 
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    of = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
+                    of = JsonConvert.DeserializeObject<CommentVM>(apiResponse);
                 }
             }
             return View(of);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(OfferVM s, int id) //strongly type view
+        public async Task<IActionResult> Delete(CommentVM s, int id) //strongly type view
         {
             string _restpath = GetHostUrl().Content + CN();
 
-            OfferVM ofResult = new OfferVM();
+            CommentVM ofResult = new CommentVM();
 
             try
             {
@@ -142,11 +142,11 @@ namespace Marketplace.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(OfferVM s) //strongly type view
+        public async Task<IActionResult> Create(CommentVM s) //strongly type view
         {
             string _restpath = GetHostUrl().Content + CN();
 
-            OfferVM ofResult = new OfferVM();
+            CommentVM ofResult = new CommentVM();
 
             try
             {
@@ -158,7 +158,7 @@ namespace Marketplace.WebApp.Controllers
                     using (var response = await httpClient.PostAsync($"{_restpath}", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync(); //mozna zwrocic caly obiekt ktory zostal zedytowany
-                        ofResult = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
+                        ofResult = JsonConvert.DeserializeObject<CommentVM>(apiResponse);
                     }
                 }
             }
@@ -168,24 +168,5 @@ namespace Marketplace.WebApp.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            string _restpath = GetHostUrl().Content + CN();
-            OfferVM s = new OfferVM();
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    s = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
-                }
-            }
-            return View(s);
-        }
-
-
-
     }
 }
