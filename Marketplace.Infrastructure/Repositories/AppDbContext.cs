@@ -18,6 +18,8 @@ namespace Marketplace.Infrastructure.Repositories
         //public DbSet<Coach> Coach { get; set; }
 
         public DbSet<Offer> Offer { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Product> Product { get; set; }
     }
 
 }

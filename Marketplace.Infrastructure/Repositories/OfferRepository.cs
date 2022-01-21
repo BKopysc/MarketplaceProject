@@ -59,7 +59,7 @@ namespace Marketplace.Infrastructure.Repositories
         public async Task<IEnumerable<Offer>> BrowseWithFilterAsync(string name, bool active)
         {
             var o = _appDbContext.Offer.Where(x => x.Name.Contains(name) && x.Active == active).AsEnumerable();
-            return await Task.FromResult(o); ;
+            return await Task.FromResult(o);
         }
 
         public async Task DelAsync(int id)

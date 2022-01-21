@@ -10,7 +10,6 @@ namespace Marketplace.Core.Domain
         public int Name { get; set; }
         public int Description { get; set; }
         public String StatusType { get; set; }
-
         public ICollection<Offer> Offers { get; set; }
 
     }

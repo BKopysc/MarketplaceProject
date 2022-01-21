@@ -2,6 +2,7 @@
 using Marketplace.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,28 +16,83 @@ namespace Marketplace.Infrastructure.Repositories
         {
             _appDbContext = appDbContext;
         }
-        public Task<Comment> AddSync(Comment c)
-        { 
+        public async Task<Comment> AddSync(Comment c)
+        {
+            try
+            {
+                _appDbContext.Comment.Add(c);
+                _appDbContext.SaveChanges();
+
+                Console.WriteLine(c.CommentId);
+
+                //Task.CompletedTask;
+                return await Task.FromResult(_appDbContext.Comment.FirstOrDefault(x => x.CommentId == c.CommentId));
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
         }
 
-        public Task<IEnumerable<Comment>> BrowseAllAsync()
+        public async Task<IEnumerable<Comment>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Comment);
         }
 
-        public Task DelAsync(int id)
+        public async Task DelAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Comment.FirstOrDefault(x => x.CommentId == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task<Comment> GetAsync(int id)
+        public async Task<Comment> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await Task.FromResult(_appDbContext.Comment.FirstOrDefault(x => x.CommentId == id));
+
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
         }
 
-        public Task<Comment> UpdateAsync(Comment c, int id)
+        public async Task<Comment> UpdateAsync(Comment c, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var z = _appDbContext.Comment.FirstOrDefault(x => x.CommentId == id);
+
+                if (z == null)
+                {
+                    return null;
+                }
+
+                z.AuthorName = c.AuthorName;
+                z.CreatedDate = c.CreatedDate;
+                z.Text = c.Text;
+
+                _appDbContext.SaveChanges();
+
+                await Task.CompletedTask;
+                return (z);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
         }
     }
 }

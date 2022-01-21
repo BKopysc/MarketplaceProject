@@ -2,6 +2,7 @@
 using Marketplace.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,29 +10,90 @@ namespace Marketplace.Infrastructure.Repositories
 {
     class ProductRepository : IProductRepository
     {
-        public Task<Product> AddSync(Product p)
-        {
-            throw new NotImplementedException();
+        private AppDbContext _appDbContext;
+
+        public ProductRepository(AppDbContext appDbContext) {
+            _appDbContext = appDbContext;
         }
 
-        public Task<IEnumerable<Product>> BrowseAllAsync()
+        public async Task<Product> AddSync(Product p)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Product.Add(p);
+                _appDbContext.SaveChanges();
+
+                Console.WriteLine(p.ProductId);
+
+                //Task.CompletedTask;
+                return await Task.FromResult(_appDbContext.Product.FirstOrDefault(x => x.ProductId == p.ProductId));
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
+        
+    }
+
+        public async Task<IEnumerable<Product>> BrowseAllAsync()
+        {
+            return await Task.FromResult(_appDbContext.Product);
         }
 
-        public Task DelAsync(int id)
+        public async Task DelAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Product.FirstOrDefault(x => x.ProductId == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task<Product> GetAsync(int id)
+        public async Task<Product> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await Task.FromResult(_appDbContext.Product.FirstOrDefault(x => x.ProductId == id));
+
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
         }
 
-        public Task<Product> UpdateAsync(Product p, int id)
+        public async Task<Product> UpdateAsync(Product p, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var z = _appDbContext.Product.FirstOrDefault(x => x.ProductId == id);
+
+                if (z == null)
+                {
+                    return null;
+                }
+
+                z.Description = p.Description;
+                z.Name = p.Name;
+                z.StatusType = p.StatusType;
+
+                _appDbContext.SaveChanges();
+
+                await Task.CompletedTask;
+                return (z);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
         }
     }
 }
