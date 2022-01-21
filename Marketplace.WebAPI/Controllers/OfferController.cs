@@ -1,4 +1,5 @@
-﻿using Marketplace.Infrastructure.DTO;
+﻿using Marketplace.Infrastructure.Commands;
+using Marketplace.Infrastructure.DTO;
 using Marketplace.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,26 +46,26 @@ namespace Marketplace.WebAPI.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> AddSkiJumper([FromBody] CreateSkiJumper offer)
+        public async Task<IActionResult> AddOffer([FromBody] CreateOffer offer)
         {
-            Console.WriteLine($"Post: id - {offer.Id}");
-            OfferDTO z = await _offerService.;
+            Console.WriteLine($"Post: id - {offer.OfferId}");
+            OfferDTO z = await _offerService.AddOffer(offer);
             return Json(z);
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateSkiJumper([FromBody] UpdateSkiJumper skiJumper, int id)
+        public async Task UpdateOffer([FromBody] UpdateOffer offer, int id)
         {
             Console.WriteLine($"Put: id {id}");
-            await _skiJumperService.UpdateSkiJumper(skiJumper, id);
+            await _offerService.UpdateOffer(offer, id);
             //return Json(z);
         }
 
         [HttpDelete("{id}")]
-        public async Task DeleteSkiJumper(int id)
+        public async Task DeleteOffer(int id)
         {
             Console.WriteLine($"Delete: id {id}");
-            await _skiJumperService.DeleteSkiJumper(id);
+            await _offerService.DeleteOffer(id);
             //return Json(z);
         }
     }

@@ -6,7 +6,7 @@ namespace Marketplace.Infrastructure.Commands
 {
     public class UpdateOffer
     {
-        public int OfferId { get; set; }
+        //public int OfferId { get; set; }
         public String Name { get; set; }
         public String AuthorName { get; set; }
         public double Price { get; set; }

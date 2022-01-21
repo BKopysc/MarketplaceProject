@@ -29,7 +29,7 @@ namespace Marketplace.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Product p, int id)
+        public Task<Product> UpdateAsync(Product p, int id)
         {
             throw new NotImplementedException();
         }

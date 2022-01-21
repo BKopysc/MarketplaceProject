@@ -9,9 +9,14 @@ namespace Marketplace.Infrastructure.Repositories
 {
     class CommentRepository : ICommentRepository
     {
-        public Task<Comment> AddSync(Comment c)
+        private AppDbContext _appDbContext;
+
+        public CommentRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
+        }
+        public Task<Comment> AddSync(Comment c)
+        { 
         }
 
         public Task<IEnumerable<Comment>> BrowseAllAsync()
@@ -29,7 +34,7 @@ namespace Marketplace.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Comment c, int id)
+        public Task<Comment> UpdateAsync(Comment c, int id)
         {
             throw new NotImplementedException();
         }

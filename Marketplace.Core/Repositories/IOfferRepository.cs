@@ -8,7 +8,7 @@ namespace Marketplace.Core.Repositories
 {
     public interface IOfferRepository
     {
-        Task UpdateAsync(Offer o, int id);
+        Task<Offer> UpdateAsync(Offer o, int id);
         Task<Offer> AddSync(Offer o);
         Task DelAsync(int id);
         Task<Offer> GetAsync(int id);

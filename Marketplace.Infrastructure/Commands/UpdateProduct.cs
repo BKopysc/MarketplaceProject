@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Marketplace.Infrastructure.DTO
+namespace Marketplace.Infrastructure.Commands
 {
-    public class ProductDTO
+    public class UpdateProduct
     {
-        public int ProductId { get; set; }
+       // public int ProductId { get; set; }
         public int Name { get; set; }
         public int Description { get; set; }
         public String StatusType { get; set; }
-        public ICollection<OfferDTO> Offers { get; set; }
+
+        //public ICollection<Offer> Offers { get; set; }
     }
 }

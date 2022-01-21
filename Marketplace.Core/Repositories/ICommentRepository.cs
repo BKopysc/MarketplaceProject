@@ -8,7 +8,7 @@ namespace Marketplace.Core.Repositories
 {
     public interface ICommentRepository
     {
-        Task UpdateAsync(Comment c, int id);
+        Task<Comment> UpdateAsync(Comment c, int id);
         Task<Comment> AddSync(Comment c);
         Task DelAsync(int id);
         Task<Comment> GetAsync(int id);

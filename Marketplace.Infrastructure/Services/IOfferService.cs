@@ -1,4 +1,5 @@
-﻿using Marketplace.Infrastructure.DTO;
+﻿using Marketplace.Infrastructure.Commands;
+using Marketplace.Infrastructure.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,10 +15,10 @@ namespace Marketplace.Infrastructure.Services
 
         Task<OfferDTO> AddOffer(CreateOffer offer);
 
-        Task UpdateOffer(UpdateOffer offer, int id);
+        Task<OfferDTO> UpdateOffer(UpdateOffer offer, int id);
 
         Task DeleteOffer(int id);
 
-        Task<IEnumerable<OfferDTO>> BrowseWithFilter(string name, string country);
+        Task<IEnumerable<OfferDTO>> BrowseWithFilter(string name, bool active);
     }
 }

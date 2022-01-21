@@ -1,5 +1,6 @@
 ﻿using Marketplace.Core.Domain;
 using Marketplace.Core.Repositories;
+using Marketplace.Infrastructure.Commands;
 using Marketplace.Infrastructure.DTO;
 using System;
 using System.Collections.Generic;
@@ -39,29 +40,77 @@ namespace Marketplace.Infrastructure.Services
             return z.Select(x => MakeDTO(x));
         }
 
-        public Task<IEnumerable<OfferDTO>> BrowseWithFilter(string name, string country)
+        public async Task<IEnumerable<OfferDTO>> BrowseWithFilter(string name, bool active)
         {
-            throw new NotImplementedException();
+            var z = await _offerRepository.BrowseWithFilterAsync(name, active);
+
+            if (z == null)
+            {
+                return null;
+            }
+            return z.Select(X => MakeDTO(X));
+
+        
         }
 
-        public Task DeleteOffer(int id)
+        public async Task DeleteOffer(int id)
         {
-            throw new NotImplementedException();
+            await _offerRepository.DelAsync(id);
         }
 
-        public Task<OfferDTO> GetOffer(int id)
+        public  async Task<OfferDTO> GetOffer(int id)
         {
-            throw new NotImplementedException();
+            var z = await _offerRepository.GetAsync(id);
+
+            if (z == null)
+            {
+                return null;
+            }
+            return MakeDTO(z);
         }
 
-        public Task<OfferDTO> AddOffer(CreateSkiJumper skiJumper)
+        public async Task<OfferDTO> AddOffer(CreateOffer offer)
         {
-            throw new NotImplementedException();
+            Offer of = new Offer()
+            {
+                OfferId = offer.OfferId,
+                Name = offer.Name,
+                AuthorName = offer.AuthorName,
+                Price = offer.Price,
+                Active = offer.Active,
+                CreatedDate = offer.CreatedDate,
+            };
+
+            var z = await _offerRepository.AddSync(of);
+
+            if (z == null)
+            {
+                return null;
+            }
+
+            Console.WriteLine(z.OfferId);
+            return MakeDTO(z);
         }
 
-        public Task UpdateOffer(UpdateSkiJumper skiJumper, int id)
+        public async Task<OfferDTO> UpdateOffer(UpdateOffer offer, int id)
         {
-            throw new NotImplementedException();
+            Offer of = new Offer()
+            {
+                //OfferId = offer.OfferId,
+                Name = offer.Name,
+                AuthorName = offer.AuthorName,
+                Price = offer.Price,
+                Active = offer.Active,
+                CreatedDate = offer.CreatedDate,
+            };
+
+            var z = await _offerRepository.UpdateAsync(of, id);
+
+            if(z == null)
+            {
+                return null;
+            }
+            return MakeDTO(z);
         }
     }
 }

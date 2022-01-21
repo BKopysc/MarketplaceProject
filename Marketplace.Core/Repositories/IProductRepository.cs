@@ -8,7 +8,7 @@ namespace Marketplace.Core.Repositories
 {
     public interface IProductRepository
     {
-        Task UpdateAsync(Product p, int id);
+        Task<Product> UpdateAsync(Product p, int id);
         Task<Product> AddSync (Product p);
         Task DelAsync(int id);
         Task<Product> GetAsync(int id);

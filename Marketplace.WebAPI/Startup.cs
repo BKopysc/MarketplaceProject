@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,6 +34,18 @@ namespace Marketplace.WebAPI
             services.AddControllers();
             services.AddScoped<IOfferRepository, OfferRepository>();
             services.AddScoped<IOfferService, OfferService>();
+
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IOfferService, OfferService>();
+
+            services.AddScoped<IOfferRepository, OfferRepository>();
+            services.AddScoped<IOfferService, OfferService>();
+
+
+            services.AddDbContext<AppDbContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("MarketplaceConnectionString"))
+                    );
 
             services.AddSwaggerGen(c =>
             {
