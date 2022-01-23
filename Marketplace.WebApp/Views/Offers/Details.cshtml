@@ -1,5 +1,5 @@
 ﻿@model Marketplace.WebApp.Models.OfferVM
-@CommentModel IEnumerable<Marketplace.WebApp.Models.CommentVM>
+@*@CommentModel IEnumerable<Marketplace.WebApp.Models.CommentVM>*@
 
 <div>
     <h4>OfferVM</h4>
@@ -44,7 +44,7 @@
     </dl>
 </div>
 
-<table class="table">
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -92,7 +92,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>

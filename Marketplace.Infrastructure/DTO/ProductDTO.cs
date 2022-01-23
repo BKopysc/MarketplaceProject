@@ -11,5 +11,8 @@ namespace Marketplace.Infrastructure.DTO
         public String Description { get; set; }
         public String StatusType { get; set; }
         public ICollection<OfferDTO> Offers { get; set; }
+
+        public int? ProfileId { get; set; }
+        public ProfileDTO Profile { get; set; }
     }
 }

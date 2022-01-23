@@ -11,6 +11,8 @@ namespace Marketplace.Infrastructure.Commands
         public String Description { get; set; }
         public String StatusType { get; set; }
 
+        public int? ProfileId { get; set; }
+        //public Profile Profile { get; set; }
         //public ICollection<Offer> Offers { get; set; }
     }
 }

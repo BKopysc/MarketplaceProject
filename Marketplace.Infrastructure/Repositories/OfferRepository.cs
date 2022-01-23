@@ -105,7 +105,6 @@ namespace Marketplace.Infrastructure.Repositories
                 z.Name = o.Name;
                 //z.OfferId = o.OfferId;
                 z.Active = o.Active;
-                z.AuthorName = o.AuthorName;
                 z.Comments = o.Comments;
                 z.Price = o.Price;
 

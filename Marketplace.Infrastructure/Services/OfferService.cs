@@ -19,7 +19,6 @@ namespace Marketplace.Infrastructure.Services
             OfferDTO offDTO = new OfferDTO()
             {
                 Name = o.Name,
-                AuthorName = o.AuthorName,
                 Active = o.Active,
                 CreatedDate = o.CreatedDate,
                 OfferId = o.OfferId,
@@ -75,7 +74,6 @@ namespace Marketplace.Infrastructure.Services
             {
                 OfferId = offer.OfferId,
                 Name = offer.Name,
-                AuthorName = offer.AuthorName,
                 Price = offer.Price,
                 Active = offer.Active,
                 CreatedDate = offer.CreatedDate,
@@ -98,7 +96,6 @@ namespace Marketplace.Infrastructure.Services
             {
                 //OfferId = offer.OfferId,
                 Name = offer.Name,
-                AuthorName = offer.AuthorName,
                 Price = offer.Price,
                 Active = offer.Active,
                 CreatedDate = offer.CreatedDate,

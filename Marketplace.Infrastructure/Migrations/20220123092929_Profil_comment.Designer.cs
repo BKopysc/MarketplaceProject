@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220121200625_Poprawiona2")]
-    partial class Poprawiona2
+    [Migration("20220123092929_Profil_comment")]
+    partial class Profil_comment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,6 +47,37 @@ namespace Marketplace.Infrastructure.Migrations
                     b.ToTable("Comment");
                 });
 
+            modelBuilder.Entity("Marketplace.Core.Domain.Contact", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("County")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContactId");
+
+                    b.HasIndex("ProfileId")
+                        .IsUnique()
+                        .HasFilter("[ProfileId] IS NOT NULL");
+
+                    b.ToTable("Contact");
+                });
+
             modelBuilder.Entity("Marketplace.Core.Domain.Offer", b =>
                 {
                     b.Property<int>("OfferId")
@@ -57,9 +88,6 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("AuthorName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -69,7 +97,12 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("int");
+
                     b.HasKey("OfferId");
+
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Offer");
                 });
@@ -87,12 +120,38 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProfileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StatusType")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
 
+                    b.HasIndex("ProfileId");
+
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("Marketplace.Core.Domain.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileId");
+
+                    b.ToTable("Profile");
                 });
 
             modelBuilder.Entity("OfferProduct", b =>
@@ -121,6 +180,33 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Navigation("Offer");
                 });
 
+            modelBuilder.Entity("Marketplace.Core.Domain.Contact", b =>
+                {
+                    b.HasOne("Marketplace.Core.Domain.Profile", "Profile")
+                        .WithOne("Contact")
+                        .HasForeignKey("Marketplace.Core.Domain.Contact", "ProfileId");
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Marketplace.Core.Domain.Offer", b =>
+                {
+                    b.HasOne("Marketplace.Core.Domain.Profile", "Profile")
+                        .WithMany("Offers")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Marketplace.Core.Domain.Product", b =>
+                {
+                    b.HasOne("Marketplace.Core.Domain.Profile", null)
+                        .WithMany("Products")
+                        .HasForeignKey("ProfileId");
+                });
+
             modelBuilder.Entity("OfferProduct", b =>
                 {
                     b.HasOne("Marketplace.Core.Domain.Offer", null)
@@ -139,6 +225,15 @@ namespace Marketplace.Infrastructure.Migrations
             modelBuilder.Entity("Marketplace.Core.Domain.Offer", b =>
                 {
                     b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Marketplace.Core.Domain.Profile", b =>
+                {
+                    b.Navigation("Contact");
+
+                    b.Navigation("Offers");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

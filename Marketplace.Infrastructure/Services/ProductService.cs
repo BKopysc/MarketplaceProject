@@ -22,7 +22,8 @@ namespace Marketplace.Infrastructure.Services
                 ProductId = o.ProductId,
                 Description = o.Description,
                 Name = o.Name,
-                StatusType = o.StatusType
+                StatusType = o.StatusType,
+                
                 //Offers = o.Offers,
                
             };

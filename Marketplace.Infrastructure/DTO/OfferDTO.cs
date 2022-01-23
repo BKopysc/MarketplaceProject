@@ -13,6 +13,9 @@ namespace Marketplace.Infrastructure.DTO
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
 
+        public int ProfileId { get; set; }
+        public ProfileDTO Profile { get; set; }
+
         public ICollection<ProductDTO> Products { get; set; }
         public List<CommentDTO> Comments { get; set; }
 
