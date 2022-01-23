@@ -77,6 +77,7 @@ namespace Marketplace.Infrastructure.Services
                 Price = offer.Price,
                 Active = offer.Active,
                 CreatedDate = offer.CreatedDate,
+                ProfileId = offer.ProfileId
             };
 
             var z = await _offerRepository.AddSync(of);

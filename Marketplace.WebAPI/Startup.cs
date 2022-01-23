@@ -41,6 +41,14 @@ namespace Marketplace.WebAPI
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
 
+            services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IProfileService, ProfileService>();
+
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IContactService, ContactService>();
+
+
+
 
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(

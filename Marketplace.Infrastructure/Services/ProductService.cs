@@ -23,9 +23,9 @@ namespace Marketplace.Infrastructure.Services
                 Description = o.Description,
                 Name = o.Name,
                 StatusType = o.StatusType,
-                
+
                 //Offers = o.Offers,
-               
+
             };
             return prDTO;
         }
@@ -94,6 +94,6 @@ namespace Marketplace.Infrastructure.Services
                 return null;
             }
             return MakeDTO(z);
-    }
+        }
     }
 }
