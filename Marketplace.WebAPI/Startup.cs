@@ -47,6 +47,9 @@ namespace Marketplace.WebAPI
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<IContactService, ContactService>();
 
+            services.AddScoped<IOffer_ProductRepository, Offer_ProductRepository>();
+            services.AddScoped<IOffer_ProductService, Offer_ProductService>();
+
 
 
 

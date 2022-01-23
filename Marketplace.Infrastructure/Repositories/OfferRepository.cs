@@ -62,6 +62,11 @@ namespace Marketplace.Infrastructure.Repositories
             return await Task.FromResult(o);
         }
 
+        public Task ConnectProducts(Offer o, List<Product> productList)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task DelAsync(int id)
         {
             try
@@ -109,7 +114,7 @@ namespace Marketplace.Infrastructure.Repositories
                 z.Price = o.Price;
 
                 z.CreatedDate = o.CreatedDate;
-                z.Products = o.Products;
+                //z.Products = o.Products;
 
                 _appDbContext.SaveChanges();
 

@@ -12,7 +12,7 @@ namespace Marketplace.Infrastructure.Commands
         public String City { get; set; }
         public String Phone { get; set; }
 
-        public int? ProfileId { get; set; }
+        public int ProfileId { get; set; }
         //public Profile Profile { get; set; }
     }
 }

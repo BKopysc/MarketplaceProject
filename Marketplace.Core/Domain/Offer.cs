@@ -15,7 +15,8 @@ namespace Marketplace.Core.Domain
         public int ProfileId { get; set; }
         public Profile Profile { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        //public ICollection<Product> Products { get; set; }
+        public List<Offer_Product> Offer_Products { get; set; }
         public List<Comment> Comments { get; set; }
     }
 }

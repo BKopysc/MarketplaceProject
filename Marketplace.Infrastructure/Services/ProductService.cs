@@ -41,7 +41,8 @@ namespace Marketplace.Infrastructure.Services
                 ProductId = product.ProductId,
                 Description = product.Description,
                 Name = product.Name,
-                StatusType = product.StatusType
+                StatusType = product.StatusType,
+                ProfileId = product.ProfileId
                 //Offers
             };
             var z = await _productRepository.AddSync(pr);

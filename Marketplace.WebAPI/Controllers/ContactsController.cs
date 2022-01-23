@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebAPI.Controllers
 {
+    [Route("[Controller]")]
     public class ContactsController : Controller
     {
         private readonly IContactService _contactService;

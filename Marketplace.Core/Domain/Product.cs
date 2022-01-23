@@ -11,7 +11,8 @@ namespace Marketplace.Core.Domain
         public String Description { get; set; }
         public String StatusType { get; set; }
 
-        public ICollection<Offer> Offers { get; set; }
+        //public ICollection<Offer> Offers { get; set; }
+        public List<Offer_Product> Offer_Products { get; set; }
         public int? ProfileId { get; set; }
         public Profile Profile { get; set; }
     }

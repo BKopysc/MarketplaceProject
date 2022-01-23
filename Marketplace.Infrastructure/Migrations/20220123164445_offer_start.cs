@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Marketplace.Infrastructure.Migrations
 {
-    public partial class Profil_comment : Migration
+    public partial class offer_start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,7 @@ namespace Marketplace.Infrastructure.Migrations
                     County = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfileId = table.Column<int>(type: "int", nullable: true)
+                    ProfileId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,7 @@ namespace Marketplace.Infrastructure.Migrations
                         column: x => x.ProfileId,
                         principalTable: "Profile",
                         principalColumn: "ProfileId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,24 +113,26 @@ namespace Marketplace.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OfferProduct",
+                name: "Offer_Products",
                 columns: table => new
                 {
-                    OffersOfferId = table.Column<int>(type: "int", nullable: false),
-                    ProductsProductId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OfferId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OfferProduct", x => new { x.OffersOfferId, x.ProductsProductId });
+                    table.PrimaryKey("PK_Offer_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OfferProduct_Offer_OffersOfferId",
-                        column: x => x.OffersOfferId,
+                        name: "FK_Offer_Products_Offer_OfferId",
+                        column: x => x.OfferId,
                         principalTable: "Offer",
                         principalColumn: "OfferId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OfferProduct_Product_ProductsProductId",
-                        column: x => x.ProductsProductId,
+                        name: "FK_Offer_Products_Product_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
@@ -145,8 +147,7 @@ namespace Marketplace.Infrastructure.Migrations
                 name: "IX_Contact_ProfileId",
                 table: "Contact",
                 column: "ProfileId",
-                unique: true,
-                filter: "[ProfileId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offer_ProfileId",
@@ -154,9 +155,14 @@ namespace Marketplace.Infrastructure.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfferProduct_ProductsProductId",
-                table: "OfferProduct",
-                column: "ProductsProductId");
+                name: "IX_Offer_Products_OfferId",
+                table: "Offer_Products",
+                column: "OfferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Offer_Products_ProductId",
+                table: "Offer_Products",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_ProfileId",
@@ -173,7 +179,7 @@ namespace Marketplace.Infrastructure.Migrations
                 name: "Contact");
 
             migrationBuilder.DropTable(
-                name: "OfferProduct");
+                name: "Offer_Products");
 
             migrationBuilder.DropTable(
                 name: "Offer");

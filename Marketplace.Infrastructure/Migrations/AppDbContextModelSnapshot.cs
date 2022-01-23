@@ -4,16 +4,14 @@ using Marketplace.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Marketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220123102751_Profile_products2")]
-    partial class Profile_products2
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,14 +64,13 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfileId")
+                    b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
                     b.HasKey("ContactId");
 
                     b.HasIndex("ProfileId")
-                        .IsUnique()
-                        .HasFilter("[ProfileId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Contact");
                 });
@@ -105,6 +102,28 @@ namespace Marketplace.Infrastructure.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Offer");
+                });
+
+            modelBuilder.Entity("Marketplace.Core.Domain.Offer_Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Offer_Products");
                 });
 
             modelBuilder.Entity("Marketplace.Core.Domain.Product", b =>
@@ -154,21 +173,6 @@ namespace Marketplace.Infrastructure.Migrations
                     b.ToTable("Profile");
                 });
 
-            modelBuilder.Entity("OfferProduct", b =>
-                {
-                    b.Property<int>("OffersOfferId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OffersOfferId", "ProductsProductId");
-
-                    b.HasIndex("ProductsProductId");
-
-                    b.ToTable("OfferProduct");
-                });
-
             modelBuilder.Entity("Marketplace.Core.Domain.Comment", b =>
                 {
                     b.HasOne("Marketplace.Core.Domain.Offer", "Offer")
@@ -184,7 +188,9 @@ namespace Marketplace.Infrastructure.Migrations
                 {
                     b.HasOne("Marketplace.Core.Domain.Profile", "Profile")
                         .WithOne("Contact")
-                        .HasForeignKey("Marketplace.Core.Domain.Contact", "ProfileId");
+                        .HasForeignKey("Marketplace.Core.Domain.Contact", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Profile");
                 });
@@ -200,6 +206,25 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Marketplace.Core.Domain.Offer_Product", b =>
+                {
+                    b.HasOne("Marketplace.Core.Domain.Offer", "Offer")
+                        .WithMany("Offer_Products")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Marketplace.Core.Domain.Product", "Product")
+                        .WithMany("Offer_Products")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Marketplace.Core.Domain.Product", b =>
                 {
                     b.HasOne("Marketplace.Core.Domain.Profile", "Profile")
@@ -209,24 +234,16 @@ namespace Marketplace.Infrastructure.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("OfferProduct", b =>
-                {
-                    b.HasOne("Marketplace.Core.Domain.Offer", null)
-                        .WithMany()
-                        .HasForeignKey("OffersOfferId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Marketplace.Core.Domain.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Marketplace.Core.Domain.Offer", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Offer_Products");
+                });
+
+            modelBuilder.Entity("Marketplace.Core.Domain.Product", b =>
+                {
+                    b.Navigation("Offer_Products");
                 });
 
             modelBuilder.Entity("Marketplace.Core.Domain.Profile", b =>
