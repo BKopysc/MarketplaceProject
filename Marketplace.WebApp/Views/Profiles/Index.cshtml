@@ -1,0 +1,83 @@
+﻿@model Marketplace.WebApp.Models.ProfileVM
+
+<div>
+    <h4>Twój profil</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Email
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            Imię
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            Nazwisko
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class = "col-sm-2">
+            Płeć
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+    </dl>
+</div>
+@{ 
+    if (Model.contactVM != null)
+    {
+<div class="card">
+    <div class="card-header">Dane kontaktowe</div>
+    <div class="body" style="background-color: #ebebeb">
+        <dl class="row">
+            <dt class="col-sm-2">
+                Państwo
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(m => m.contactVM.Country)
+            </dd>
+            <dt class="col-sm-2">
+                Województwo
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(m => m.contactVM.County)
+            </dd>
+            <dt class="col-sm-2">
+                Miasto
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(m => m.contactVM.City)
+            </dd>
+            <dt class="col-sm-2">
+                Nr. telefonu
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(m => m.contactVM.Phone)
+            </dd>
+        </dl>
+    </div>
+</div>
+<br />
+    }
+    }
+
+<div>
+    <a class="btn btn-secondary" asp-controller="Profiles" asp-action="Edit">Edytuj profil</a>
+    @{
+        if (Model.contactVM == null)
+        {
+            <a class="btn btn-primary" asp-controller="Contacts" asp-action="Create">Dodaj dane kontaktowe</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-controller="Contacts" asp-action="Edit">Edytuj dane kontaktowe</a>
+        }
+    }
+</div>

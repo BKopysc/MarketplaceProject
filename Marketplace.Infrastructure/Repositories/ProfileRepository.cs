@@ -68,6 +68,20 @@ namespace Marketplace.Infrastructure.Repositories
             }
         }
 
+        public async Task<Profile> GetByUIDAsync(string id)
+        {
+            try
+            {
+                return await Task.FromResult(_appDbContext.Profile.FirstOrDefault(x => x.UserId == id));
+
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
+        }
+
         public async Task<Profile> UpdateAsync(Profile p, int id)
         {
             try

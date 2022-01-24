@@ -36,6 +36,15 @@ namespace Marketplace.WebAPI.Controllers
             return Json(z);
         }
 
+        [HttpGet("uid")]
+        public async Task<IActionResult> GetByFilter(string id)
+        {
+            //Console.WriteLine($"Get Filter: name: {name}, country: {country}");
+            //IEnumerable<SkiJumperDTO> z = await _skiJumperService.BrowseWithFilter(name, country);
+            ProfileDTO z = await _profileService.GetProfileByUID(id);
+            return Json(z);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddProfile([FromBody] CreateProfile profile)

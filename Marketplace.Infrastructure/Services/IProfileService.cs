@@ -13,6 +13,8 @@ namespace Marketplace.Infrastructure.Services
 
         Task<ProfileDTO> GetProfile(int id);
 
+        Task<ProfileDTO> GetProfileByUID(String id);
+
         Task<ProfileDTO> AddProfile(CreateProfile profile);
 
         Task<ProfileDTO> UpdateProfile(UpdateProfile profile, int id);

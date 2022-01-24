@@ -13,6 +13,8 @@ namespace Marketplace.Infrastructure.Services
 
         Task<ContactDTO> GetContact(int id);
 
+        Task<ContactDTO> GetContactByPId(int id);
+
         Task<ContactDTO> AddContact(CreateContact contact);
 
         Task<ContactDTO> UpdateContact(UpdateContact contact, int id);

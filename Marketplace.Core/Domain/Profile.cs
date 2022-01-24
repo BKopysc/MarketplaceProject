@@ -18,5 +18,8 @@ namespace Marketplace.Core.Domain
         public List<Offer> Offers { get; set; }
         public List<Product> Products { get; set; }
 
+        public String UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
     }
 }

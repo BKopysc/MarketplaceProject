@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Marketplace.Infrastructure.Repositories
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -17,15 +17,22 @@ namespace Marketplace.Infrastructure.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Offer_Product>()
                 .HasOne(o => o.Offer)
                 .WithMany(op => op.Offer_Products)
                 .HasForeignKey(oi => oi.OfferId);
 
             modelBuilder.Entity<Offer_Product>()
-    .HasOne(o => o.Product)
-    .WithMany(op => op.Offer_Products)
-    .HasForeignKey(oi => oi.ProductId);
+            .HasOne(o => o.Product)
+            .WithMany(op => op.Offer_Products)
+            .HasForeignKey(oi => oi.ProductId);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(us => us.Profile)
+                .WithOne(p => p.ApplicationUser)
+                .HasForeignKey<Profile>(us => us.UserId);
         }
 
         //public DbSet<SkiJumper> SkiJumper { get; set; } //dla pozostalych klas to samo

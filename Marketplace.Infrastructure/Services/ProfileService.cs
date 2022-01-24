@@ -58,7 +58,8 @@ namespace Marketplace.Infrastructure.Services
                 ProfileId = profile.ProfileId,
                 Name = profile.Name,
                 Sex = profile.Sex,
-                Surname = profile.Surname
+                Surname = profile.Surname,
+                UserId = profile.UserId
                 //Offers
             };
             var z = await _profileRepository.AddSync(pr);
@@ -96,6 +97,15 @@ namespace Marketplace.Infrastructure.Services
             await _profileRepository.DelAsync(id);
         }
 
+        public async Task<ProfileDTO> GetProfileByUID(string id)
+        {
+            var z = await _profileRepository.GetByUIDAsync(id);
 
+            if (z == null)
+            {
+                return null;
+            }
+            return MakeDTO(z);
+        }
     }
 }

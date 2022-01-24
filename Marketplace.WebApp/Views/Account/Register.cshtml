@@ -1,0 +1,34 @@
+﻿@model Marketplace.WebApp.Models.LoginVM
+
+<h3>
+    Zarejestruj konto w systemie</br>
+    Jeśli już masz konto
+    <a asp-action="Login" asp-controller="Account">zaloguj się!</a>
+</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register" asp-controller="Account" method="post" class="form-horizontal" role="form">
+            <div asp-validation-summary="All" class="text-danger">
+
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label">            </label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger">
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Rejestracja" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+    </div>

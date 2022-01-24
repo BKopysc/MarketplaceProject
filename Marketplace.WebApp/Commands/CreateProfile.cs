@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Marketplace.Infrastructure.Commands
+namespace Marketplace.WebApp.Commands
 {
     public class CreateProfile
     {

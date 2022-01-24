@@ -10,6 +10,7 @@ namespace Marketplace.Core.Repositories
     {
         Task<Contact> UpdateAsync(Contact c, int id);
         Task<Contact> AddSync(Contact c);
+        Task<Contact> GetByPIdAsync(int id);
         Task DelAsync(int id);
         Task<Contact> GetAsync(int id);
         Task<IEnumerable<Contact>> BrowseAllAsync();

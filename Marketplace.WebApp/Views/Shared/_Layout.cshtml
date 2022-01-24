@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using Marketplace.Core.Domain;
+@inject SignInManager<ApplicationUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,11 +23,46 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Offers" asp-action="Index">Oferty</a>
+                        </li>
+                        @{ 
+                            if (SignInManager.IsSignedIn(User))
+                            {
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Offers" asp-action="Index">Twoje oferty</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Offers" asp-action="Index">Offers</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Offers" asp-action="Index">Twoje produkty</a>
                         </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                @* Elementy po prawej stronie w NavBarze*@
+                <div class="navbar-collapse collapse order-3">
+                    <ul class="navbar-nav ml-auto">
+                        @{
+                            if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-link text-light">
+                                    <a class="text-light" asp-area="" asp-controller="Profiles" asp-action="Index" style="font-weight:bold">@User.Identity.Name</a>
+                                </li>
+                                <li class="nav-link">
+                                    <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm" method="post" class="navbar-right">
+                                        <a href="javascript:document.getElementById('logoutForm').submit()" class="text-light">Wyloguj</a>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Zaloguj</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Zarejestruj</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

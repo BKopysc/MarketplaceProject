@@ -35,6 +35,12 @@ namespace Marketplace.WebAPI.Controllers
             ContactDTO z = await _contactService.GetContact(id);
             return Json(z);
         }
+        [HttpGet("pid")]
+        public async Task<IActionResult> GetByFilter(int id)
+        {
+            ContactDTO z = await _contactService.GetContactByPId(id);
+            return Json(z);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddContact([FromBody] CreateContact contact)

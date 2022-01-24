@@ -50,6 +50,7 @@ namespace Marketplace.WebApp.Controllers
             }
             return View(offersList);
         }
+
         public async Task<IActionResult> Edit(int id)
         {
             string _restpath = GetHostUrl().Content + CN();

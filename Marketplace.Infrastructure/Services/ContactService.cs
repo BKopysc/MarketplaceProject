@@ -98,5 +98,16 @@ namespace Marketplace.Infrastructure.Services
             }
             return MakeDTO(z);
         }
+
+        public async Task<ContactDTO> GetContactByPId(int id)
+        {
+            var z = await _contactRepository.GetByPIdAsync(id);
+
+            if (z == null)
+            {
+                return null;
+            }
+            return MakeDTO(z);
+        }
     }
 }

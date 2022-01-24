@@ -12,6 +12,8 @@ namespace Marketplace.Core.Repositories
         Task<Profile> AddSync(Profile p);
         Task DelAsync(int id);
         Task<Profile> GetAsync(int id);
+
+        Task<Profile> GetByUIDAsync(String id);
         Task<IEnumerable<Profile>> BrowseAllAsync();
     }
 }

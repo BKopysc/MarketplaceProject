@@ -68,6 +68,19 @@ namespace Marketplace.Infrastructure.Repositories
             }
         }
 
+        public async Task<Contact> GetByPIdAsync(int ProfileId)
+        {
+            try
+            {
+                return await Task.FromResult(_appDbContext.Contact.FirstOrDefault(x => x.ProfileId == ProfileId));
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+                return null;
+            }
+        }
+
         public async Task<Contact> UpdateAsync(Contact c, int id)
         {
             try

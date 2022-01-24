@@ -1,3 +1,4 @@
+using Marketplace.Core.Domain;
 using Marketplace.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +32,8 @@ namespace Marketplace.WebApp
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("MarketplaceConnectionString")));
-            services.AddIdentity<IdentityUser, IdentityRole>(
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(
                 ).AddEntityFrameworkStores<AppDbContext>();
         }
 
