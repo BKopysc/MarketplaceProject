@@ -93,49 +93,48 @@ namespace Marketplace.WebApp.Controllers
             return RedirectToAction("Index", "Profiles");
         }
 
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    string _restpath = GetHostUrl().Content + CN();
-        //    ContactVM s = new ContactVM();
+        public async Task<IActionResult> Edit(int id)
+        {
+            string _restpath = GetHostUrl().Content + CN();
+            ContactVM s = new ContactVM();
 
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            s = JsonConvert.DeserializeObject<ContactVM>(apiResponse);
-        //        }
-        //    }
-        //    return View(s);
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    s = JsonConvert.DeserializeObject<ContactVM>(apiResponse);
+                }
+            }
+            return View(s);
 
-        //}
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(ContactVM s, int id) //strongly type view
-        //{
-        //    string _restpath = GetHostUrl().Content + CN();
+        [HttpPost]
+        public async Task<IActionResult> Edit(ContactVM s, int id) 
+        {
+            string _restpath = GetHostUrl().Content + CN();
+            ContactVM ofResult = new ContactVM();
 
-        //    ContactVM ofResult = new ContactVM();
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    string jsonString = System.Text.Json.JsonSerializer.Serialize(s);
+                    var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-        //    try
-        //    {
-        //        using (var httpClient = new HttpClient())
-        //        {
-        //            string jsonString = System.Text.Json.JsonSerializer.Serialize(s);
-        //            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-        //            using (var response = await httpClient.PutAsync($"{_restpath}/{id}", content))
-        //            {
-        //                string apiResponse = await response.Content.ReadAsStringAsync(); //mozna zwrocic caly obiekt ktory zostal zedytowany
-        //                ofResult = JsonConvert.DeserializeObject<ContactVM>(apiResponse);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return View(ex);
-        //    }
-        //    return RedirectToAction(nameof(Index));
-        //}
+                    using (var response = await httpClient.PutAsync($"{_restpath}/{id}", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        ofResult = JsonConvert.DeserializeObject<ContactVM>(apiResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+            return RedirectToAction("Index","Profiles");
+        }
     }
 }

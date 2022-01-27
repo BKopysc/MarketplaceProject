@@ -13,6 +13,8 @@ namespace Marketplace.Infrastructure.Services
 
         Task<OfferDTO> GetOffer(int id);
 
+        Task<IEnumerable<OfferDTO>> BrowseAllByPID(int PID);
+
         Task<OfferDTO> AddOffer(CreateOffer offer);
 
         Task<OfferDTO> UpdateOffer(UpdateOffer offer, int id);

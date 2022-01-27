@@ -11,6 +11,8 @@ namespace Marketplace.Infrastructure.Services
     {
         Task<IEnumerable<ProductDTO>> BrowseAll();
 
+        Task<IEnumerable<ProductDTO>> BrowseAllByPID(int PID);
+
         Task<ProductDTO> GetProduct(int id);
 
         Task<ProductDTO> AddProduct(CreateProduct product);

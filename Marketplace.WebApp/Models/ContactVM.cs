@@ -8,6 +8,7 @@ namespace Marketplace.WebApp.Models
 {
     public class ContactVM
     {
+        public int ContactID { get; set; }
         public int ProfileId { get; set; }
         public String Country { get; set; }
         public String County { get; set; }

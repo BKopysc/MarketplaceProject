@@ -41,6 +41,11 @@ namespace Marketplace.Infrastructure.Repositories
             return await Task.FromResult(_appDbContext.Product);
         }
 
+        public async Task<IEnumerable<Product>> BrowseAllAsyncByPID(int PID)
+        {
+           return await Task.FromResult(_appDbContext.Product.Where(x => x.ProfileId == PID));
+        }
+
         public async Task DelAsync(int id)
         {
             try

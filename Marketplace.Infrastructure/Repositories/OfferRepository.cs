@@ -56,6 +56,11 @@ namespace Marketplace.Infrastructure.Repositories
             return await Task.FromResult(_appDbContext.Offer);
         }
 
+        public async Task<IEnumerable<Offer>> BrowseAllAsyncByPID(int PID)
+        {
+           return await Task.FromResult(_appDbContext.Offer.Where(x => x.ProfileId == PID));
+        }
+
         public async Task<IEnumerable<Offer>> BrowseWithFilterAsync(string name, bool active)
         {
             var o = _appDbContext.Offer.Where(x => x.Name.Contains(name) && x.Active == active).AsEnumerable();

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Marketplace.WebApp.Models.OfferVM>
+
+<p>
+    <a asp-action="Create">Stórz nową ofertę</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID oferty
+            </th>
+            <th>
+                Nazwa
+            </th>
+            <th>
+                Cena
+            </th>
+            <th>
+                Aktywna?
+            </th>
+            <th>
+                Data Utworzenia
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfferId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "Edit", new { id = item.OfferId }) |
+                @Html.ActionLink("Szczególy", "Details", new { id = item.OfferId }) |
+                @Html.ActionLink("Usuń", "Delete", new { id = item.OfferId }) |
+                @Html.ActionLink("Dodaj produkt", "AddProduct", new { id = item.OfferId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

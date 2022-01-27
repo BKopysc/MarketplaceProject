@@ -23,6 +23,7 @@ namespace Marketplace.Infrastructure.Services
                 CreatedDate = o.CreatedDate,
                 OfferId = o.OfferId,
                 Price = o.Price,
+                ProfileId = o.ProfileId
                 //Products = (ICollection<ProductDTO>)o.Products,
                 //Comments = new List<CommentDTO>(o.Comments)
             };
@@ -109,6 +110,12 @@ namespace Marketplace.Infrastructure.Services
                 return null;
             }
             return MakeDTO(z);
+        }
+
+        public async Task<IEnumerable<OfferDTO>> BrowseAllByPID(int PID)
+        {
+            var z = await _offerRepository.BrowseAllAsyncByPID(PID);
+            return z.Select(x => MakeDTO(x));
         }
     }
 }

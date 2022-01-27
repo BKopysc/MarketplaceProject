@@ -15,5 +15,7 @@ namespace Marketplace.Core.Repositories
         Task<IEnumerable<Offer>> BrowseAllAsync();
 
         Task<IEnumerable<Offer>> BrowseWithFilterAsync(string name, bool active);
+
+        Task<IEnumerable<Offer>> BrowseAllAsyncByPID(int PID);
     }
 }

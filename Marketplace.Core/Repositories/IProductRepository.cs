@@ -13,6 +13,9 @@ namespace Marketplace.Core.Repositories
         Task DelAsync(int id);
         Task<Product> GetAsync(int id);
         Task<IEnumerable<Product>> BrowseAllAsync();
+        Task<IEnumerable<Product>> BrowseAllAsyncByPID(int PID);
+
+
     }
 
 }

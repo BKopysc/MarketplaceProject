@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Marketplace.WebApp.Models.ProductVM>
+
+<p>
+    <a asp-action="Create">Stwórz nowy produkt</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID produktu
+            </th>
+            <th>
+                Nazwa
+            </th>
+            <th>
+               Opis
+            </th>
+            <th>
+                Stan
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusType)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "Edit", new {  id=item.ProductId }) |
+                @Html.ActionLink("Usuń", "Delete", new { id = item.ProductId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

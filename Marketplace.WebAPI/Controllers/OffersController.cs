@@ -36,6 +36,13 @@ namespace Marketplace.WebAPI.Controllers
             return Json(z);
         }
 
+        [HttpGet("pid")]
+        public async Task<IActionResult> BrowseAllByPID(int pid)
+        {
+            IEnumerable<OfferDTO> z = await _offerService.BrowseAllByPID(pid);
+            return Json(z);
+        }
+
         ////https://localhost:5001/skijumper/filter?name=alan&country=ger
         //[HttpGet("filter")]
         //public async Task<IActionResult> GetByFilter(string name, string country)

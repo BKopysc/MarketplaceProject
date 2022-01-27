@@ -1,4 +1,6 @@
-﻿using Marketplace.WebApp.Models;
+﻿using Marketplace.Core.Domain;
+using Marketplace.WebApp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,10 +17,71 @@ namespace Marketplace.WebApp.Controllers
     public class OffersController : Controller
     {
         public IConfiguration Configuration;
-
-        public OffersController(IConfiguration configuration)
+        private UserManager<ApplicationUser> _userManager;
+        public OffersController(IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             Configuration = configuration;
+            _userManager = userManager;
+        }
+
+        private async Task<string> GetEmailAsync()
+        {
+            string _plainrest = GetHostUrl().Content;
+
+            ClaimsPrincipal currentUser = this.User;
+            var user = _userManager.GetUserAsync(currentUser).Result;
+            var currentUserId = "";
+
+            if (currentUser.Identity.IsAuthenticated)
+            {
+                return user.Email;
+            }
+            else
+            {
+                return "";
+            }
+
+
+        }
+
+        private async Task<int> GetProfiledAsync()
+        {
+            string _plainrest = GetHostUrl().Content;
+
+            ClaimsPrincipal currentUser = this.User;
+            var user = _userManager.GetUserAsync(currentUser).Result;
+            var currentUserId = "";
+
+            if (currentUser.Identity.IsAuthenticated)
+            {
+                currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            else
+            {
+                return -1;
+            }
+
+            ProfileVM profileModel = new ProfileVM();
+
+            //Pobranie Usera
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync($"{_plainrest}Profiles/uid?id={currentUserId}"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        profileModel = JsonConvert.DeserializeObject<ProfileVM>(apiResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (-1);
+            }
+
+            return (profileModel.ProfileId);
+
         }
 
 
@@ -68,6 +132,30 @@ namespace Marketplace.WebApp.Controllers
 
         }
 
+        public async Task<IActionResult> Yours()
+        {
+            string _restpath = GetHostUrl().Content + CN();
+            List<OfferVM> offersList = new List<OfferVM>();
+
+            int profileID = await GetProfiledAsync();
+
+
+            if (profileID == -1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/pid?pid={profileID}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    offersList = JsonConvert.DeserializeObject<List<OfferVM>>(apiResponse);
+                }
+            }
+            return View(offersList);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Edit(OfferVM s, int id) //strongly type view
         {
@@ -113,7 +201,7 @@ namespace Marketplace.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(OfferVM s, int id) //strongly type view
+        public async Task<IActionResult> Delete(OfferVM s, int id)
         {
             string _restpath = GetHostUrl().Content + CN();
 
@@ -149,6 +237,11 @@ namespace Marketplace.WebApp.Controllers
 
             OfferVM ofResult = new OfferVM();
 
+            int ProfileID = await GetProfiledAsync();
+
+            s.ProfileId = ProfileID;
+            s.CreatedDate = DateTime.Now;
+
             try
             {
                 using (var httpClient = new HttpClient())
@@ -170,9 +263,57 @@ namespace Marketplace.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> AddProduct(int id)
+        {
+
+            int profileID = await GetProfiledAsync();
+
+            if (profileID == -1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string _restpath = GetHostUrl().Content + CN();
+            string _plainrest = GetHostUrl().Content;
+
+            OfferVM off = new OfferVM();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    off = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
+                }
+            }
+
+            // Pobranie listy produktów użytkownika
+
+            List<ProductVM> productsList = new List<ProductVM>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_plainrest}products/pid?pid={profileID}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    productsList = JsonConvert.DeserializeObject<List<ProductVM>>(apiResponse);
+                }
+            }
+
+            OfferProductsVM OP = new OfferProductsVM()
+            {
+                OfferName = off.Name,
+                ProductList = productsList
+            };
+
+            return View(OP);
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             string _restpath = GetHostUrl().Content + CN();
+            string _plainrest = GetHostUrl().Content;
+
             OfferVM s = new OfferVM();
 
             using (var httpClient = new HttpClient())
@@ -183,7 +324,61 @@ namespace Marketplace.WebApp.Controllers
                     s = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
                 }
             }
-            return View(s);
+
+            var offerUserId = s.ProfileId;
+
+            ProfileVM profileModel= new ProfileVM();
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync($"{_plainrest}Profiles/{offerUserId}"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        profileModel = JsonConvert.DeserializeObject<ProfileVM>(apiResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+
+            ContactVM contactModel = new ContactVM();
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync($"{_plainrest}contacts/pid?id={offerUserId}"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        if (apiResponse == null)
+                        {
+                            contactModel = null;
+                        }
+                        contactModel = JsonConvert.DeserializeObject<ContactVM>(apiResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View(ex);
+            }
+
+
+            OfferDetailsVM ODv = new OfferDetailsVM()
+            {
+                OfferId = s.OfferId,
+                OfferName = s.Name,
+                OfferPrice = s.Price,
+                OfferActive = s.Active,
+                CreatedDate = s.CreatedDate,
+                Name = profileModel.Name,
+                Surname = profileModel.Surname,
+                contactVM = contactModel
+            };
+
+            return View(ODv);
         }
 
 

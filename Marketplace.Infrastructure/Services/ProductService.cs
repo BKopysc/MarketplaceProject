@@ -23,7 +23,7 @@ namespace Marketplace.Infrastructure.Services
                 Description = o.Description,
                 Name = o.Name,
                 StatusType = o.StatusType,
-
+                ProfileId = o.ProfileId
                 //Offers = o.Offers,
 
             };
@@ -95,6 +95,12 @@ namespace Marketplace.Infrastructure.Services
                 return null;
             }
             return MakeDTO(z);
+        }
+
+        public async Task<IEnumerable<ProductDTO>> BrowseAllByPID(int PID)
+        {
+            var z = await _productRepository.BrowseAllAsyncByPID(PID);
+            return z.Select(x => MakeDTO(x));
         }
     }
 }
