@@ -60,7 +60,6 @@ namespace Marketplace.Infrastructure.Services
                 Sex = profile.Sex,
                 Surname = profile.Surname,
                 UserId = profile.UserId
-                //Offers
             };
             var z = await _profileRepository.AddSync(pr);
 

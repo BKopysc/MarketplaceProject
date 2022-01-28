@@ -235,15 +235,15 @@ namespace Marketplace.WebApp.Controllers
             int profileid = await GetProfiledAsync();
             
 
-            if(s.ProfileId != profileid)
-            {
+            //if(s.ProfileId != profileid)
+            //{
                
-                var isAdmin = _userManager.IsInRoleAsync(user, "admin").Result;
-                if (isAdmin == false)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-            }
+            //    var isAdmin = _userManager.IsInRoleAsync(user, "admin").Result;
+            //    if (isAdmin == false)
+            //    {
+            //        return RedirectToAction(nameof(Index));
+            //    }
+            //}
 
             try
             {

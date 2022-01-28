@@ -1,18 +1,18 @@
 ﻿@model Marketplace.WebApp.Models.ProfileCreateVM
 
-<h4>ProfileCreateVM</h4>
+<h4>Utwórz profil</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Imię</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
+                <label asp-for="Surname" class="control-label">Nazwisko</label>
                 <input asp-for="Surname" class="form-control" />
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>

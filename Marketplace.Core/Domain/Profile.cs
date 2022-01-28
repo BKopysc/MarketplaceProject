@@ -9,7 +9,7 @@ namespace Marketplace.Core.Domain
         public int ProfileId { get; set; }
         public String Name { get; set; }
         public String Surname { get; set; }
-        public String Sex { get; set; }
+        public String Sex { get; set; } // Płeć
 
         //Contact, Offers, Products
 

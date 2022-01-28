@@ -197,7 +197,7 @@ namespace Marketplace.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(ProductVM s, int id) //strongly type view
+        public async Task<IActionResult> Delete(ProductVM s, int id) 
         {
             string _restpath = GetHostUrl().Content + CN();
 
@@ -205,14 +205,16 @@ namespace Marketplace.WebApp.Controllers
 
             int profileID = await GetProfiledAsync();
 
-            if (ofResult.ProfileId == profileID)
-            {
-                return View(ofResult);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            // Nalezy sprawdzic czy uzytkownik jest wlascicielem. Trzeba wykonac metode GET
+
+            //if (ofResult.ProfileId == profileID)
+            //{
+            //    return View(ofResult);
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             try
             {
