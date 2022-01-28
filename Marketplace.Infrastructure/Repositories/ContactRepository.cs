@@ -92,10 +92,10 @@ namespace Marketplace.Infrastructure.Repositories
                     return null;
                 }
 
-                z.City = z.City;
-                z.Country = z.Country;
-                z.County = z.County;
-                z.Phone = z.Phone;
+                z.City = c.City;
+                z.Country = c.Country;
+                z.County = c.County;
+                z.Phone = c.Phone;
 
                 _appDbContext.SaveChanges();
 

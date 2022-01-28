@@ -1,5 +1,6 @@
 ﻿using Marketplace.Core.Domain;
 using Marketplace.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebApp.Controllers
 {
+    [Authorize]
     public class ContactsController : Controller
     {
         public IConfiguration Configuration;

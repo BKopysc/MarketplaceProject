@@ -1,5 +1,6 @@
 ﻿using Marketplace.Core.Domain;
 using Marketplace.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebApp.Controllers
 {
+    [Authorize]
     public class OffersController : Controller
     {
         public IConfiguration Configuration;
@@ -97,9 +99,9 @@ namespace Marketplace.WebApp.Controllers
             return cn;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            //string _restpath = "http://localhost:5000/skijumper";
 
             string _restpath = GetHostUrl().Content + CN();
             List<OfferVM> offersList = new List<OfferVM>();
@@ -189,6 +191,14 @@ namespace Marketplace.WebApp.Controllers
             string _restpath = GetHostUrl().Content + CN();
             OfferVM of = new OfferVM();
 
+            ClaimsPrincipal currentUser = this.User;
+            var user = _userManager.GetUserAsync(currentUser).Result;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            int profileid = await GetProfiledAsync();
+
+ 
+
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
@@ -197,6 +207,17 @@ namespace Marketplace.WebApp.Controllers
                     of = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
                 }
             }
+
+            if (of.ProfileId != profileid)
+            {
+
+                var isAdmin = _userManager.IsInRoleAsync(user, "admin").Result;
+                if (isAdmin == false)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
             return View(of);
         }
 
@@ -205,7 +226,24 @@ namespace Marketplace.WebApp.Controllers
         {
             string _restpath = GetHostUrl().Content + CN();
 
+            ClaimsPrincipal currentUser = this.User;
+            var user = _userManager.GetUserAsync(currentUser).Result;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             OfferVM ofResult = new OfferVM();
+
+            int profileid = await GetProfiledAsync();
+            
+
+            if(s.ProfileId != profileid)
+            {
+               
+                var isAdmin = _userManager.IsInRoleAsync(user, "admin").Result;
+                if (isAdmin == false)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
 
             try
             {
@@ -263,51 +301,7 @@ namespace Marketplace.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> AddProduct(int id)
-        {
 
-            int profileID = await GetProfiledAsync();
-
-            if (profileID == -1)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            string _restpath = GetHostUrl().Content + CN();
-            string _plainrest = GetHostUrl().Content;
-
-            OfferVM off = new OfferVM();
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"{_restpath}/{id}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    off = JsonConvert.DeserializeObject<OfferVM>(apiResponse);
-                }
-            }
-
-            // Pobranie listy produktów użytkownika
-
-            List<ProductVM> productsList = new List<ProductVM>();
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync($"{_plainrest}products/pid?pid={profileID}"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    productsList = JsonConvert.DeserializeObject<List<ProductVM>>(apiResponse);
-                }
-            }
-
-            OfferProductsVM OP = new OfferProductsVM()
-            {
-                OfferName = off.Name,
-                ProductList = productsList
-            };
-
-            return View(OP);
-        }
 
         public async Task<IActionResult> Details(int id)
         {

@@ -1,6 +1,7 @@
 ﻿using Marketplace.Core.Domain;
 using Marketplace.WebApp.Commands;
 using Marketplace.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebApp.Controllers
 {
+    [Authorize]
     public class ProfilesController : Controller
     {
         public IConfiguration Configuration;

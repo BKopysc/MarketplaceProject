@@ -1,5 +1,6 @@
 ﻿using Marketplace.Core.Domain;
 using Marketplace.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebApp.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         public IConfiguration Configuration;
@@ -200,6 +202,17 @@ namespace Marketplace.WebApp.Controllers
             string _restpath = GetHostUrl().Content + CN();
 
             ProductVM ofResult = new ProductVM();
+
+            int profileID = await GetProfiledAsync();
+
+            if (ofResult.ProfileId == profileID)
+            {
+                return View(ofResult);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             try
             {

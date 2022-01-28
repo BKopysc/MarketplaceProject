@@ -41,7 +41,14 @@
                         @Html.DisplayFor(modelItem => item.CreatedDate)
                     </td>
                     <td>
-                        @Html.ActionLink("Szczególy", "Details", new { id = item.OfferId })
+                        @Html.ActionLink("Szczególy", "Details", new { id = item.OfferId }) 
+                        @{ 
+                            if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.OfferId })
+                }
+                        }
+
                 </tr>
             }
         </tbody>

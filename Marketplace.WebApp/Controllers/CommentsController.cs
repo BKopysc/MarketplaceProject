@@ -1,4 +1,5 @@
 ﻿using Marketplace.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.WebApp.Controllers
 {
+    [Authorize]
     public class CommentsController : Controller
     {
         public IConfiguration Configuration;
@@ -35,7 +37,6 @@ namespace Marketplace.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //string _restpath = "http://localhost:5000/skijumper";
 
             string _restpath = GetHostUrl().Content + CN();
             List<CommentVM> commentsList = new List<CommentVM>();

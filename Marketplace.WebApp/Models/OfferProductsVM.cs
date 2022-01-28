@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,12 +10,12 @@ namespace Marketplace.WebApp.Models
     {
         public int OfferId { get; set; }
         public String OfferName { get; set; }
-        public double OfferPrice { get; set; }
-        public bool Active { get; set; }
-        public DateTime CreatedDate { get; set; }
         public int ProfileId { get; set; }
 
-        public List<ProductVM> ProductList{ get; set; }
+        public string SelectedProduct { get; set; }
+        public List<SelectListItem> getProduct { get; set; }
+
+        //public List<ProductVM> ProductList{ get; set; }
 
     }
 }

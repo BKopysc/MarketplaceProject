@@ -36,14 +36,6 @@ namespace Marketplace.WebAPI.Controllers
                 return Json(z);
             }
 
-            ////https://localhost:5001/skijumper/filter?name=alan&country=ger
-            //[HttpGet("filter")]
-            //public async Task<IActionResult> GetByFilter(string name, string country)
-            //{
-            //    Console.WriteLine($"Get Filter: name: {name}, country: {country}");
-            //    IEnumerable<SkiJumperDTO> z = await _skiJumperService.BrowseWithFilter(name, country);
-            //    return Json(z);
-            //}
 
             [HttpPost]
             public async Task<IActionResult> AddOffer_Product([FromBody] CreateOffer_Product offer_Product)

@@ -46,7 +46,7 @@
                 @Html.ActionLink("Edytuj", "Edit", new { id = item.OfferId }) |
                 @Html.ActionLink("Szczególy", "Details", new { id = item.OfferId }) |
                 @Html.ActionLink("Usuń", "Delete", new { id = item.OfferId }) |
-                @Html.ActionLink("Dodaj produkt", "AddProduct", new { id = item.OfferId })
+                @Html.ActionLink("Dodaj produkt", "AddProduct", "OffersProducts", new { id = item.OfferId })
             </td>
         </tr>
 }

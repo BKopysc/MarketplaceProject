@@ -69,7 +69,6 @@
     }
 
 <div>
-    <p>Model.contactVM.ContactID</p>
     <a class="btn btn-secondary" asp-controller="Profiles" asp-action="Edit">Edytuj profil</a>
     @{
         if (Model.contactVM == null)
@@ -78,8 +77,7 @@
         }
         else
         {
-            
-            @Html.ActionLink("Edytuj dane kontatkowe", "Edit", "Contacts", Model.contactVM.ContactID);
+            @Html.ActionLink("Edytuj dane kontaktowe", "Edit","Contacts", new { id = Model.contactVM.ContactID }, new { @class = "btn btn-primary" })
         }
     }
 </div>
